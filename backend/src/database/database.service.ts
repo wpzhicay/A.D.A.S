@@ -25,15 +25,17 @@ export class DatabaseService implements OnModuleInit {
       await this.getDataSource();
       this.logger.log('Database connected successfully');
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : String(error);
+      const errorMsg = error instanceof Error 
+        ? `${error.name}: ${error.message}\n${error.stack}` 
+        : String(error);
       this.logger.warn(
-        `Database connection failed: ${errorMsg} (Attempt ${this.connectionAttempts + 1}/${this.maxRetries})`,
+        `Database connection failed: ${errorMsg.substring(0, 200)} (Attempt ${this.connectionAttempts + 1}/${this.maxRetries})`,
       );
       if (this.connectionAttempts < this.maxRetries) {
         this.connectionAttempts++;
         setTimeout(() => this.connectAsync(), 5000);
       } else {
-        this.logger.error(`Max database connection retries reached. Last error: ${errorMsg}`);
+        this.logger.error(`Max database connection retries reached. Last error: ${errorMsg.substring(0, 300)}`);
       }
     }
   }
