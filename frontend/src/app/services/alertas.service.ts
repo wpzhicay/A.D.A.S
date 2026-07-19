@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from '@environments/environment.prod';
 
 export interface Alerta {
   id?: number;
@@ -15,7 +16,7 @@ export interface Alerta {
   providedIn: 'root',
 })
 export class AlertasService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   private alertasSubject = new BehaviorSubject<Alerta[]>([]);
   public alertas$ = this.alertasSubject.asObservable();
 

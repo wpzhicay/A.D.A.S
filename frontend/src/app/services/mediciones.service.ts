@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, interval } from 'rxjs';
 import { switchMap, catchError, startWith } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { environment } from '@environments/environment';
 
 export interface Medicion {
   id?: number;
@@ -30,7 +31,7 @@ export interface DashboardData {
   providedIn: 'root',
 })
 export class MedicionesService {
-  private apiUrl = 'http://localhost:3000/api/mediciones';
+  private apiUrl = `${environment.apiUrl}/mediciones`;
   private selectedDeviceId$ = new BehaviorSubject<number>(1);
 
   constructor(private http: HttpClient) {}
