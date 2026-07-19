@@ -53,7 +53,7 @@ export class DatabaseService implements OnModuleInit {
       entities: [Usuario, Dispositivo, Medicion, Alerta],
       synchronize: false,
       logging: false,
-      poolErrorHandler: (error) => {
+      poolErrorHandler: (error: any) => {
         this.logger.error(`Database pool error: ${error}`);
       },
     };
