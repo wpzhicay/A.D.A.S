@@ -1,0 +1,337 @@
+<svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" class="registro-hero">
+  <defs>
+    <!-- Gradientes -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a365d;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2c5aa0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6ba3d4;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradiente realista para paneles oscuros -->
+    <radialGradient id="panelRealistic" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#1e5a96;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d3d6e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#051f3d;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Brillo realista -->
+    <linearGradient id="panelShine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.25" />
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:0" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.1" />
+    </linearGradient>
+    
+    <!-- Gradiente sol -->
+    <radialGradient id="sunGrad" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#ffed4e;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#ffa500;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff8c00;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Sombras -->
+    <filter id="shadowDeep" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="3" dy="4" stdDeviation="4" flood-opacity="0.4"/>
+    </filter>
+    
+    <filter id="shadowLight" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <!-- Cielo degradado -->
+  <rect width="500" height="400" fill="url(#skyGrad)"/>
+
+  <!-- Nubes suaves -->
+  <ellipse cx="80" cy="60" rx="45" ry="25" fill="#ffffff" opacity="0.15"/>
+  <ellipse cx="120" cy="70" rx="55" ry="20" fill="#ffffff" opacity="0.1"/>
+  <ellipse cx="420" cy="100" rx="50" ry="25" fill="#ffffff" opacity="0.12"/>
+
+  <!-- Sol grande y realista -->
+  <circle cx="420" cy="70" r="45" fill="url(#sunGrad)" filter="url(#shadowDeep)"/>
+  
+  <!-- Rayos de sol suave -->
+  <g stroke="#ffed4e" stroke-width="2" stroke-linecap="round" opacity="0.3">
+    <line x1="420" y1="15" x2="420" y2="0"/>
+    <line x1="420" y1="125" x2="420" y2="140"/>
+    <line x1="475" y1="70" x2="490" y2="70"/>
+    <line x1="365" y1="70" x2="350" y2="70"/>
+    <line x1="465" y1="25" x2="475" y2="15"/>
+    <line x1="375" y1="115" x2="365" y2="125"/>
+    <line x1="465" y1="115" x2="475" y2="125"/>
+    <line x1="375" y1="25" x2="365" y2="15"/>
+  </g>
+
+  <!-- PANEL 1 - Arriba izquierda (con perspectiva) -->
+  <g filter="url(#shadowDeep)">
+    <!-- Marco principal del panel -->
+    <rect x="30" y="140" width="130" height="90" rx="3" fill="url(#panelRealistic)" stroke="#0a1929" stroke-width="2"/>
+    
+    <!-- Celdas solares 6x4 grid -->
+    <g stroke="#1e5a96" stroke-width="0.8" opacity="0.6">
+      <!-- Fila 1 -->
+      <rect x="38" y="150" width="16" height="16" fill="none"/>
+      <rect x="58" y="150" width="16" height="16" fill="none"/>
+      <rect x="78" y="150" width="16" height="16" fill="none"/>
+      <rect x="98" y="150" width="16" height="16" fill="none"/>
+      <rect x="118" y="150" width="16" height="16" fill="none"/>
+      <rect x="138" y="150" width="16" height="16" fill="none"/>
+      
+      <!-- Fila 2 -->
+      <rect x="38" y="172" width="16" height="16" fill="none"/>
+      <rect x="58" y="172" width="16" height="16" fill="none"/>
+      <rect x="78" y="172" width="16" height="16" fill="none"/>
+      <rect x="98" y="172" width="16" height="16" fill="none"/>
+      <rect x="118" y="172" width="16" height="16" fill="none"/>
+      <rect x="138" y="172" width="16" height="16" fill="none"/>
+      
+      <!-- Fila 3 -->
+      <rect x="38" y="194" width="16" height="16" fill="none"/>
+      <rect x="58" y="194" width="16" height="16" fill="none"/>
+      <rect x="78" y="194" width="16" height="16" fill="none"/>
+      <rect x="98" y="194" width="16" height="16" fill="none"/>
+      <rect x="118" y="194" width="16" height="16" fill="none"/>
+      <rect x="138" y="194" width="16" height="16" fill="none"/>
+      
+      <!-- Fila 4 -->
+      <rect x="38" y="216" width="16" height="16" fill="none"/>
+      <rect x="58" y="216" width="16" height="16" fill="none"/>
+      <rect x="78" y="216" width="16" height="16" fill="none"/>
+      <rect x="98" y="216" width="16" height="16" fill="none"/>
+      <rect x="118" y="216" width="16" height="16" fill="none"/>
+      <rect x="138" y="216" width="16" height="16" fill="none"/>
+    </g>
+    
+    <!-- Brillo superior -->
+    <rect x="30" y="140" width="130" height="90" rx="3" fill="url(#panelShine)"/>
+    
+    <!-- Conexiones -->
+    <rect x="25" y="200" width="8" height="12" fill="#ff6b35" rx="1"/>
+    <rect x="167" y="200" width="8" height="12" fill="#ff6b35" rx="1"/>
+  </g>
+
+  <!-- PANEL 2 - Centro superior (más alto, perspectiva) -->
+  <g filter="url(#shadowDeep)" transform="translate(0, -8)">
+    <rect x="185" y="140" width="130" height="90" rx="3" fill="url(#panelRealistic)" stroke="#0a1929" stroke-width="2"/>
+    
+    <g stroke="#1e5a96" stroke-width="0.8" opacity="0.6">
+      <rect x="193" y="150" width="16" height="16" fill="none"/>
+      <rect x="213" y="150" width="16" height="16" fill="none"/>
+      <rect x="233" y="150" width="16" height="16" fill="none"/>
+      <rect x="253" y="150" width="16" height="16" fill="none"/>
+      <rect x="273" y="150" width="16" height="16" fill="none"/>
+      <rect x="293" y="150" width="16" height="16" fill="none"/>
+      
+      <rect x="193" y="172" width="16" height="16" fill="none"/>
+      <rect x="213" y="172" width="16" height="16" fill="none"/>
+      <rect x="233" y="172" width="16" height="16" fill="none"/>
+      <rect x="253" y="172" width="16" height="16" fill="none"/>
+      <rect x="273" y="172" width="16" height="16" fill="none"/>
+      <rect x="293" y="172" width="16" height="16" fill="none"/>
+      
+      <rect x="193" y="194" width="16" height="16" fill="none"/>
+      <rect x="213" y="194" width="16" height="16" fill="none"/>
+      <rect x="233" y="194" width="16" height="16" fill="none"/>
+      <rect x="253" y="194" width="16" height="16" fill="none"/>
+      <rect x="273" y="194" width="16" height="16" fill="none"/>
+      <rect x="293" y="194" width="16" height="16" fill="none"/>
+      
+      <rect x="193" y="216" width="16" height="16" fill="none"/>
+      <rect x="213" y="216" width="16" height="16" fill="none"/>
+      <rect x="233" y="216" width="16" height="16" fill="none"/>
+      <rect x="253" y="216" width="16" height="16" fill="none"/>
+      <rect x="273" y="216" width="16" height="16" fill="none"/>
+      <rect x="293" y="216" width="16" height="16" fill="none"/>
+    </g>
+    
+    <rect x="185" y="140" width="130" height="90" rx="3" fill="url(#panelShine)"/>
+    <rect x="180" y="200" width="8" height="12" fill="#ff6b35" rx="1"/>
+    <rect x="322" y="200" width="8" height="12" fill="#ff6b35" rx="1"/>
+  </g>
+
+  <!-- PANEL 3 - Derecha superior -->
+  <g filter="url(#shadowDeep)">
+    <rect x="340" y="140" width="130" height="90" rx="3" fill="url(#panelRealistic)" stroke="#0a1929" stroke-width="2"/>
+    
+    <g stroke="#1e5a96" stroke-width="0.8" opacity="0.6">
+      <rect x="348" y="150" width="16" height="16" fill="none"/>
+      <rect x="368" y="150" width="16" height="16" fill="none"/>
+      <rect x="388" y="150" width="16" height="16" fill="none"/>
+      <rect x="408" y="150" width="16" height="16" fill="none"/>
+      <rect x="428" y="150" width="16" height="16" fill="none"/>
+      <rect x="448" y="150" width="16" height="16" fill="none"/>
+      
+      <rect x="348" y="172" width="16" height="16" fill="none"/>
+      <rect x="368" y="172" width="16" height="16" fill="none"/>
+      <rect x="388" y="172" width="16" height="16" fill="none"/>
+      <rect x="408" y="172" width="16" height="16" fill="none"/>
+      <rect x="428" y="172" width="16" height="16" fill="none"/>
+      <rect x="448" y="172" width="16" height="16" fill="none"/>
+      
+      <rect x="348" y="194" width="16" height="16" fill="none"/>
+      <rect x="368" y="194" width="16" height="16" fill="none"/>
+      <rect x="388" y="194" width="16" height="16" fill="none"/>
+      <rect x="408" y="194" width="16" height="16" fill="none"/>
+      <rect x="428" y="194" width="16" height="16" fill="none"/>
+      <rect x="448" y="194" width="16" height="16" fill="none"/>
+      
+      <rect x="348" y="216" width="16" height="16" fill="none"/>
+      <rect x="368" y="216" width="16" height="16" fill="none"/>
+      <rect x="388" y="216" width="16" height="16" fill="none"/>
+      <rect x="408" y="216" width="16" height="16" fill="none"/>
+      <rect x="428" y="216" width="16" height="16" fill="none"/>
+      <rect x="448" y="216" width="16" height="16" fill="none"/>
+    </g>
+    
+    <rect x="340" y="140" width="130" height="90" rx="3" fill="url(#panelShine)"/>
+    <rect x="335" y="200" width="8" height="12" fill="#ff6b35" rx="1"/>
+    <rect x="477" y="200" width="8" height="12" fill="#ff6b35" rx="1"/>
+  </g>
+
+  <!-- PANEL 4 - Abajo izquierda (con perspectiva de profundidad) -->
+  <g filter="url(#shadowDeep)" transform="translate(0, 12)">
+    <rect x="60" y="250" width="130" height="90" rx="3" fill="url(#panelRealistic)" stroke="#0a1929" stroke-width="2"/>
+    
+    <g stroke="#1e5a96" stroke-width="0.8" opacity="0.6">
+      <rect x="68" y="260" width="16" height="16" fill="none"/>
+      <rect x="88" y="260" width="16" height="16" fill="none"/>
+      <rect x="108" y="260" width="16" height="16" fill="none"/>
+      <rect x="128" y="260" width="16" height="16" fill="none"/>
+      <rect x="148" y="260" width="16" height="16" fill="none"/>
+      <rect x="168" y="260" width="16" height="16" fill="none"/>
+      
+      <rect x="68" y="282" width="16" height="16" fill="none"/>
+      <rect x="88" y="282" width="16" height="16" fill="none"/>
+      <rect x="108" y="282" width="16" height="16" fill="none"/>
+      <rect x="128" y="282" width="16" height="16" fill="none"/>
+      <rect x="148" y="282" width="16" height="16" fill="none"/>
+      <rect x="168" y="282" width="16" height="16" fill="none"/>
+      
+      <rect x="68" y="304" width="16" height="16" fill="none"/>
+      <rect x="88" y="304" width="16" height="16" fill="none"/>
+      <rect x="108" y="304" width="16" height="16" fill="none"/>
+      <rect x="128" y="304" width="16" height="16" fill="none"/>
+      <rect x="148" y="304" width="16" height="16" fill="none"/>
+      <rect x="168" y="304" width="16" height="16" fill="none"/>
+      
+      <rect x="68" y="326" width="16" height="16" fill="none"/>
+      <rect x="88" y="326" width="16" height="16" fill="none"/>
+      <rect x="108" y="326" width="16" height="16" fill="none"/>
+      <rect x="128" y="326" width="16" height="16" fill="none"/>
+      <rect x="148" y="326" width="16" height="16" fill="none"/>
+      <rect x="168" y="326" width="16" height="16" fill="none"/>
+    </g>
+    
+    <rect x="60" y="250" width="130" height="90" rx="3" fill="url(#panelShine)"/>
+    <rect x="55" y="310" width="8" height="12" fill="#ff6b35" rx="1"/>
+    <rect x="197" y="310" width="8" height="12" fill="#ff6b35" rx="1"/>
+  </g>
+
+  <!-- PANEL 5 - Centro abajo -->
+  <g filter="url(#shadowDeep)">
+    <rect x="215" y="260" width="130" height="90" rx="3" fill="url(#panelRealistic)" stroke="#0a1929" stroke-width="2"/>
+    
+    <g stroke="#1e5a96" stroke-width="0.8" opacity="0.6">
+      <rect x="223" y="270" width="16" height="16" fill="none"/>
+      <rect x="243" y="270" width="16" height="16" fill="none"/>
+      <rect x="263" y="270" width="16" height="16" fill="none"/>
+      <rect x="283" y="270" width="16" height="16" fill="none"/>
+      <rect x="303" y="270" width="16" height="16" fill="none"/>
+      <rect x="323" y="270" width="16" height="16" fill="none"/>
+      
+      <rect x="223" y="292" width="16" height="16" fill="none"/>
+      <rect x="243" y="292" width="16" height="16" fill="none"/>
+      <rect x="263" y="292" width="16" height="16" fill="none"/>
+      <rect x="283" y="292" width="16" height="16" fill="none"/>
+      <rect x="303" y="292" width="16" height="16" fill="none"/>
+      <rect x="323" y="292" width="16" height="16" fill="none"/>
+      
+      <rect x="223" y="314" width="16" height="16" fill="none"/>
+      <rect x="243" y="314" width="16" height="16" fill="none"/>
+      <rect x="263" y="314" width="16" height="16" fill="none"/>
+      <rect x="283" y="314" width="16" height="16" fill="none"/>
+      <rect x="303" y="314" width="16" height="16" fill="none"/>
+      <rect x="323" y="314" width="16" height="16" fill="none"/>
+      
+      <rect x="223" y="336" width="16" height="16" fill="none"/>
+      <rect x="243" y="336" width="16" height="16" fill="none"/>
+      <rect x="263" y="336" width="16" height="16" fill="none"/>
+      <rect x="283" y="336" width="16" height="16" fill="none"/>
+      <rect x="303" y="336" width="16" height="16" fill="none"/>
+      <rect x="323" y="336" width="16" height="16" fill="none"/>
+    </g>
+    
+    <rect x="215" y="260" width="130" height="90" rx="3" fill="url(#panelShine)"/>
+    <rect x="210" y="320" width="8" height="12" fill="#ff6b35" rx="1"/>
+    <rect x="352" y="320" width="8" height="12" fill="#ff6b35" rx="1"/>
+  </g>
+
+  <!-- PANEL 6 - Derecha abajo -->
+  <g filter="url(#shadowDeep)" transform="translate(0, 12)">
+    <rect x="370" y="250" width="130" height="90" rx="3" fill="url(#panelRealistic)" stroke="#0a1929" stroke-width="2"/>
+    
+    <g stroke="#1e5a96" stroke-width="0.8" opacity="0.6">
+      <rect x="378" y="260" width="16" height="16" fill="none"/>
+      <rect x="398" y="260" width="16" height="16" fill="none"/>
+      <rect x="418" y="260" width="16" height="16" fill="none"/>
+      <rect x="438" y="260" width="16" height="16" fill="none"/>
+      <rect x="458" y="260" width="16" height="16" fill="none"/>
+      <rect x="478" y="260" width="16" height="16" fill="none"/>
+      
+      <rect x="378" y="282" width="16" height="16" fill="none"/>
+      <rect x="398" y="282" width="16" height="16" fill="none"/>
+      <rect x="418" y="282" width="16" height="16" fill="none"/>
+      <rect x="438" y="282" width="16" height="16" fill="none"/>
+      <rect x="458" y="282" width="16" height="16" fill="none"/>
+      <rect x="478" y="282" width="16" height="16" fill="none"/>
+      
+      <rect x="378" y="304" width="16" height="16" fill="none"/>
+      <rect x="398" y="304" width="16" height="16" fill="none"/>
+      <rect x="418" y="304" width="16" height="16" fill="none"/>
+      <rect x="438" y="304" width="16" height="16" fill="none"/>
+      <rect x="458" y="304" width="16" height="16" fill="none"/>
+      <rect x="478" y="304" width="16" height="16" fill="none"/>
+      
+      <rect x="378" y="326" width="16" height="16" fill="none"/>
+      <rect x="398" y="326" width="16" height="16" fill="none"/>
+      <rect x="418" y="326" width="16" height="16" fill="none"/>
+      <rect x="438" y="326" width="16" height="16" fill="none"/>
+      <rect x="458" y="326" width="16" height="16" fill="none"/>
+      <rect x="478" y="326" width="16" height="16" fill="none"/>
+    </g>
+    
+    <rect x="370" y="250" width="130" height="90" rx="3" fill="url(#panelShine)"/>
+    <rect x="365" y="310" width="8" height="12" fill="#ff6b35" rx="1"/>
+    <rect x="507" y="310" width="8" height="12" fill="#ff6b35" rx="1"/>
+  </g>
+
+  <!-- Líneas de conexión entre paneles -->
+  <g stroke="#ff6b35" stroke-width="2" stroke-dasharray="2,3" opacity="0.6" stroke-linecap="round">
+    <!-- Superior -->
+    <path d="M 158 206 Q 170 200 185 206"/>
+    <path d="M 313 206 Q 325 200 340 206"/>
+    
+    <!-- Inferior -->
+    <path d="M 195 316 Q 210 310 215 316"/>
+    <path d="M 350 316 Q 365 310 370 316"/>
+    
+    <!-- Verticales -->
+    <line x1="100" y1="230" x2="100" y2="250" stroke-dasharray="2,3"/>
+    <line x1="250" y1="230" x2="250" y2="260" stroke-dasharray="2,3"/>
+    <line x1="405" y1="230" x2="405" y2="250" stroke-dasharray="2,3"/>
+  </g>
+
+  <!-- Caja de fusibles/Inversor -->
+  <g filter="url(#shadowLight)">
+    <rect x="210" y="370" width="80" height="25" rx="2" fill="#1a1a1a" stroke="#ff6b35" stroke-width="1.5"/>
+    <text x="250" y="385" font-size="10" font-weight="bold" text-anchor="middle" fill="#ff6b35">Inversor</text>
+    
+    <!-- Indicadores LED -->
+    <circle cx="225" cy="378" r="2.5" fill="#10b981"/>
+    <circle cx="235" cy="378" r="2.5" fill="#10b981"/>
+    <circle cx="265" cy="378" r="2.5" fill="#fbbf24"/>
+    <circle cx="275" cy="378" r="2.5" fill="#10b981"/>
+  </g>
+
+  <!-- Texto del sistema -->
+  <text x="250" y="395" font-size="11" font-weight="500" text-anchor="middle" fill="#e0e7ff" opacity="0.8">Sistema Solar Profesional</text>
+</svg>
