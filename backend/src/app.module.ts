@@ -21,6 +21,7 @@ import { Alerta } from './database/entities/alerta.entity';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
+      url: process.env.DATABASE_URL,
       host: process.env.DB_HOST || 'localhost',
       port: parseInt(process.env.DB_PORT || '5432'),
       username: process.env.DB_USERNAME || 'postgres',
@@ -29,7 +30,7 @@ import { Alerta } from './database/entities/alerta.entity';
       entities: [Usuario, Dispositivo, Medicion, Alerta],
       synchronize: process.env.NODE_ENV !== 'production',
       logging: process.env.NODE_ENV === 'development',
-      ssl: (process.env.DB_HOST || 'localhost').includes('localhost') ? false : { rejectUnauthorized: false },
+      ssl: process.env.DATABASE_URL ? true : false,
     }),
     AuthModule,
     UsuariosModule,
