@@ -45,13 +45,7 @@ export class DatabaseService implements OnModuleInit {
       return this.dataSource;
     }
 
-    // PostgreSQL connection timeout settings
-    const postgresOptions = {
-      statement_timeout: 30000,
-      idle_in_transaction_session_timeout: 30000,
-    };
-
-    // Prefer individual connection params over URL to avoid issues
+    // Prefer individual connection params
     const host = this.configService.get('DB_HOST') || 'localhost';
     const port = parseInt(this.configService.get('DB_PORT', '5432'));
     const username = this.configService.get('DB_USERNAME', 'postgres');
@@ -69,7 +63,14 @@ export class DatabaseService implements OnModuleInit {
       synchronize: false,
       logging: false,
       ssl: false,
-      extra: postgresOptions,
+      // Connection pool settings
+      maxConnections: 5,
+      connectionTimeoutMillis: 30000,
+      idleTimeoutMillis: 30000,
+      max: 5,
+      // Statement timeouts
+      statement_timeout: 30000,
+      application_name: 'solar_generator_backend',
     };
 
     this.dataSource = new DataSource(options);
