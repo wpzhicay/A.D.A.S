@@ -29,6 +29,7 @@ import { Alerta } from './database/entities/alerta.entity';
       entities: [Usuario, Dispositivo, Medicion, Alerta],
       synchronize: process.env.NODE_ENV !== 'production',
       logging: process.env.NODE_ENV === 'development',
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
     AuthModule,
     UsuariosModule,

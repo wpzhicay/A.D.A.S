@@ -1,7 +1,4 @@
--- Create database
-CREATE DATABASE IF NOT EXISTS solar_generator;
-
-\c solar_generator
+-- PostgreSQL Compatible Schema for Solar Generator Monitoring System
 
 -- Create usuarios table
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -32,8 +29,7 @@ CREATE TABLE IF NOT EXISTS mediciones (
   porcentaje_bateria DECIMAL(5, 2) NOT NULL,
   id_dispositivo INTEGER REFERENCES dispositivos(id),
   fecha TIMESTAMP NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_dispositivo_fecha (id_dispositivo, fecha)
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create ubicaciones (GPS) table
@@ -43,8 +39,7 @@ CREATE TABLE IF NOT EXISTS ubicaciones (
   longitud DECIMAL(11, 8) NOT NULL,
   id_dispositivo INTEGER REFERENCES dispositivos(id),
   fecha TIMESTAMP NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_dispositivo_fecha (id_dispositivo, fecha)
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create alertas table
@@ -55,8 +50,7 @@ CREATE TABLE IF NOT EXISTS alertas (
   id_dispositivo INTEGER REFERENCES dispositivos(id),
   fecha TIMESTAMP NOT NULL,
   leida BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_dispositivo_leida (id_dispositivo, leida)
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create configuracion table
@@ -66,10 +60,13 @@ CREATE TABLE IF NOT EXISTS configuracion (
   intervalo_envio INTEGER DEFAULT 60,
   id_dispositivo INTEGER REFERENCES dispositivos(id),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create indexes
-CREATE INDEX idx_usuarios_correo ON usuarios(correo);
-CREATE INDEX idx_dispositivos_serie ON dispositivos(serie);
-CREATE INDEX idx_dispositivos_usuario ON dispositivos(id_usuario);
+CREATE INDEX IF NOT EXISTS idx_dispositivo_fecha ON mediciones(id_dispositivo, fecha);
+CREATE INDEX IF NOT EXISTS idx_dispositivo_fecha_ubicaciones ON ubicaciones(id_dispositivo, fecha);
+CREATE INDEX IF NOT EXISTS idx_dispositivo_leida ON alertas(id_dispositivo, leida);
+CREATE INDEX IF NOT EXISTS idx_usuarios_correo ON usuarios(correo);
+CREATE INDEX IF NOT EXISTS idx_dispositivos_serie ON dispositivos(serie);
+CREATE INDEX IF NOT EXISTS idx_dispositivos_usuario ON dispositivos(id_usuario);
