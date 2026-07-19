@@ -4,6 +4,9 @@
   "description": "NestJS backend for Solar Generator Monitoring System",
   "private": true,
   "license": "ISC",
+  "engines": {
+    "node": "20.19.0"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
