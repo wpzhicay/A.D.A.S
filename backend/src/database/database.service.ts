@@ -45,50 +45,36 @@ export class DatabaseService implements OnModuleInit {
       return this.dataSource;
     }
 
-    const databaseUrl = this.configService.get('DATABASE_URL') || 
-                       this.configService.get('DATABASE_PUBLIC_URL');
+    // PostgreSQL connection timeout settings
+    const postgresOptions = {
+      statement_timeout: 30000,
+      idle_in_transaction_session_timeout: 30000,
+    };
+
+    // Prefer individual connection params over URL to avoid issues
+    const host = this.configService.get('DB_HOST') || 'localhost';
+    const port = parseInt(this.configService.get('DB_PORT', '5432'));
+    const username = this.configService.get('DB_USERNAME', 'postgres');
+    const password = this.configService.get('DB_PASSWORD');
+    const database = this.configService.get('DB_NAME', 'railway');
 
     const options: any = {
       type: 'postgres',
+      host,
+      port,
+      username,
+      password,
+      database,
       entities: [Usuario, Dispositivo, Medicion, Alerta],
       synchronize: false,
       logging: false,
-      poolErrorHandler: (error: any) => {
-        this.logger.error(`Database pool error: ${error}`);
-      },
+      ssl: false,
+      extra: postgresOptions,
     };
 
-    // PostgreSQL connection timeout settings
-    const postgresOptions = {
-      statementTimeout: 30000,
-      connectionTimeoutMillis: 30000,
-      idleInTransactionSessionTimeout: 30000,
-    };
-
-    if (databaseUrl) {
-      options.url = databaseUrl;
-      options.extra = postgresOptions;
-    } else {
-      options.host = this.configService.get('DB_HOST', 'localhost');
-      options.port = parseInt(this.configService.get('DB_PORT', '5432'));
-      options.username = this.configService.get('DB_USERNAME', 'postgres');
-      options.password = this.configService.get('DB_PASSWORD');
-      options.database = this.configService.get('DB_NAME', 'railway');
-      options.extra = postgresOptions;
-    }
-
-    // Try without SSL first
     this.dataSource = new DataSource(options);
-    try {
-      await this.dataSource.initialize();
-      return this.dataSource;
-    } catch (error) {
-      // If connection fails, try with SSL disabled explicitly
-      options.ssl = false;
-      this.dataSource = new DataSource(options);
-      await this.dataSource.initialize();
-      return this.dataSource;
-    }
+    await this.dataSource.initialize();
+    return this.dataSource;
   }
 
   async isConnected(): Promise<boolean> {
