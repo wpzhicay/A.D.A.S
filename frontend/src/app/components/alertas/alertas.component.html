@@ -1,0 +1,28 @@
+<div class="alertas-container">
+  <!-- Sección de Contactos de Emergencia -->
+  <div class="emergency-contacts-section">
+    <h2>👥 Contactos de Emergencia</h2>
+    <p class="section-subtitle">Personas que recibirán tu mensaje de auxilio</p>
+    
+    <div class="contacts-grid">
+      <div class="contact-card" *ngFor="let contacto of contactosEmergencia">
+        <div class="contact-avatar">
+          <span>{{ getInitials(contacto.nombre) }}</span>
+        </div>
+        <h3>{{ contacto.nombre }}</h3>
+        <p class="contact-email">{{ contacto.email }}</p>
+        <p class="contact-phone">{{ contacto.telefono }}</p>
+        <div class="contact-status">
+          <span class="status-badge" [class.online]="contacto.estado === 'en_linea'">
+            {{ contacto.estado === 'en_linea' ? '🟢 En línea' : '🔴 Offline' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="contactosEmergencia.length === 0">
+      <p>📭 No hay contactos de emergencia registrados</p>
+      <p class="empty-subtitle">Agrega contactos en tu perfil para recibir ayuda rápida</p>
+    </div>
+  </div>
+</div>

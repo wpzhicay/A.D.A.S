@@ -1,0 +1,216 @@
+<div class="auditoria-container">
+  <div class="auditoria-header">
+    <h1>
+      <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"></path>
+        <polyline points="9 9 9 13 15 13 15 9"></polyline>
+        <line x1="9" y1="17" x2="15" y2="17"></line>
+      </svg>
+      Auditoría del Sistema
+    </h1>
+    <div class="header-actions">
+      <button class="btn-descargar" (click)="descargarReporte()">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar Reporte
+      </button>
+    </div>
+  </div>
+
+  <!-- Estadísticas -->
+  <div class="estadisticas-grid">
+    <div class="estadistica-card">
+      <div class="estadistica-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="3" x2="3" y2="21"></line>
+          <line x1="3" y1="21" x2="21" y2="21"></line>
+          <polyline points="3 18 7 14 11 17 15 10 19 13 21 11"></polyline>
+        </svg>
+      </div>
+      <div class="estadistica-info">
+        <p class="estadistica-label">Total Acciones</p>
+        <p class="estadistica-valor">{{ estadisticas.totalAcciones }}</p>
+      </div>
+    </div>
+
+    <div class="estadistica-card success">
+      <div class="estadistica-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <div class="estadistica-info">
+        <p class="estadistica-label">Exitosas</p>
+        <p class="estadistica-valor">{{ estadisticas.accionesExitosas }}</p>
+      </div>
+    </div>
+
+    <div class="estadistica-card warning">
+      <div class="estadistica-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3.05h16.94a2 2 0 0 0 1.71-3.05L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+      <div class="estadistica-info">
+        <p class="estadistica-label">Advertencias</p>
+        <p class="estadistica-valor">{{ estadisticas.advertencias }}</p>
+      </div>
+    </div>
+
+    <div class="estadistica-card error">
+      <div class="estadistica-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <line x1="9" y1="9" x2="15" y2="15"></line>
+        </svg>
+      </div>
+      <div class="estadistica-info">
+        <p class="estadistica-label">Errores</p>
+        <p class="estadistica-valor">{{ estadisticas.errores }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros-container">
+    <div class="filtro-group">
+      <label>
+        <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+        Filtrar por Acción:
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="filtroAccion"
+        (input)="aplicarFiltros()"
+        placeholder="Ej: Login, Configuración..."
+        class="filtro-input"
+      />
+    </div>
+
+    <div class="filtro-group">
+      <label>📊 Estado:</label>
+      <select [(ngModel)]="filtroEstado" (change)="aplicarFiltros()" class="filtro-select">
+        <option value="">Todos</option>
+        <option value="success">✓ Exitoso</option>
+        <option value="warning">⚠ Advertencia</option>
+        <option value="error">✕ Error</option>
+        <option value="info">ℹ Información</option>
+      </select>
+    </div>
+
+    <div class="filtro-group">
+      <label>📅 Fecha:</label>
+      <input
+        type="date"
+        [(ngModel)]="filtroFecha"
+        (input)="aplicarFiltros()"
+        class="filtro-input"
+      />
+    </div>
+
+    <button class="btn-reset" (click)="resetearFiltros()">🔄 Limpiar Filtros</button>
+  </div>
+
+  <!-- Tabla de Logs -->
+  <div class="logs-container">
+    <div class="logs-header">
+      <h2>📝 Registro de Auditoría ({{ filteredLogs.length }} registros)</h2>
+    </div>
+
+    <div class="logs-table">
+      <div class="table-header">
+        <div class="col-timestamp">Timestamp</div>
+        <div class="col-usuario">Usuario</div>
+        <div class="col-accion">Acción</div>
+        <div class="col-dispositivo">Dispositivo</div>
+        <div class="col-estado">Estado</div>
+        <div class="col-acciones">Acciones</div>
+      </div>
+
+      <div class="table-body">
+        <div *ngFor="let log of filteredLogs" class="table-row" [class]="'estado-' + log.estado">
+          <div class="col-timestamp">{{ log.timestamp }}</div>
+          <div class="col-usuario">{{ log.usuario }}</div>
+          <div class="col-accion">{{ log.accion }}</div>
+          <div class="col-dispositivo">{{ log.dispositivo }}</div>
+          <div class="col-estado">
+            <span
+              class="badge"
+              [class]="'badge-' + log.estado"
+              [style.background-color]="getEstadoColor(log.estado)"
+            >
+              {{ getEstadoIcon(log.estado) }} {{ log.estado.toUpperCase() }}
+            </span>
+          </div>
+          <div class="col-acciones">
+            <button class="btn-ver" (click)="verDetalles(log)">👁 Ver</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="filteredLogs.length === 0" class="no-data">
+      <p>📭 No hay registros que coincidan con los filtros aplicados</p>
+    </div>
+  </div>
+
+  <!-- Modal de Detalles -->
+  <div *ngIf="showDetails && selectedLog" class="modal-overlay" (click)="cerrarDetalles()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Detalles del Registro</h3>
+        <button class="btn-close" (click)="cerrarDetalles()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="detail-row">
+          <span class="detail-label">ID:</span>
+          <span class="detail-value">{{ selectedLog.id }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Timestamp:</span>
+          <span class="detail-value">{{ selectedLog.timestamp }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Usuario:</span>
+          <span class="detail-value">{{ selectedLog.usuario }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Acción:</span>
+          <span class="detail-value">{{ selectedLog.accion }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Dispositivo:</span>
+          <span class="detail-value">{{ selectedLog.dispositivo }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Estado:</span>
+          <span
+            class="badge"
+            [class]="'badge-' + selectedLog.estado"
+            [style.background-color]="getEstadoColor(selectedLog.estado)"
+          >
+            {{ getEstadoIcon(selectedLog.estado) }}
+            {{ selectedLog.estado.toUpperCase() }}
+          </span>
+        </div>
+        <div class="detail-row full-width">
+          <span class="detail-label">Detalles:</span>
+          <p class="detail-text">{{ selectedLog.detalles }}</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary" (click)="cerrarDetalles()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

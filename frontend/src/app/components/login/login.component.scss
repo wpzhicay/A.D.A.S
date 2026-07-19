@@ -1,0 +1,288 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgba(2,132,199,0.05);stop-opacity:1" /><stop offset="100%" style="stop-color:rgba(2,132,199,0.02);stop-opacity:1" /></linearGradient></defs><rect width="1200" height="800" fill="url(%23grad1)"/><circle cx="150" cy="100" r="80" fill="none" stroke="rgba(2,132,199,0.08)" stroke-width="2"/><circle cx="150" cy="100" r="120" fill="none" stroke="rgba(2,132,199,0.05)" stroke-width="1"/><circle cx="1050" cy="650" r="100" fill="none" stroke="rgba(2,132,199,0.08)" stroke-width="2"/><circle cx="1050" cy="650" r="150" fill="none" stroke="rgba(2,132,199,0.05)" stroke-width="1"/><path d="M 100 400 Q 300 350 500 400 T 900 400" stroke="rgba(2,132,199,0.06)" stroke-width="2" fill="none"/><path d="M 150 450 Q 350 400 550 450 T 950 450" stroke="rgba(2,132,199,0.04)" stroke-width="1.5" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(2, 132, 199, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+}
+
+.login-box {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  padding: 52px 48px;
+  width: 100%;
+  max-width: 440px;
+  animation: slideUp 0.6s ease-out;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 44px;
+
+  h1 {
+    font-size: 34px;
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 15px;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+.form-group {
+  margin-bottom: 28px;
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    color: #1e3a5f;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e7ff;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.25s ease;
+    font-family: inherit;
+    background-color: #f8fafc;
+    color: #1e3a5f;
+
+    &:focus {
+      outline: none;
+      border-color: #0284c7;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+    }
+
+    &.is-invalid {
+      border-color: #ef4444;
+      background-color: #fef2f2;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+      }
+    }
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+}
+
+.alert {
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid;
+
+  &.alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-color: #fecaca;
+  }
+
+  &.alert-success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border-color: #bbf7d0;
+  }
+}
+
+.btn-block {
+  width: 100%;
+  padding: 12px 24px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(2, 132, 199, 0.3);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.text-danger {
+  color: #ef4444;
+  font-size: 13px;
+  display: block;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.text-muted {
+  color: #94a3b8;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.me-2 {
+  margin-right: 8px;
+}
+
+.mt-3 {
+  margin-top: 28px;
+  text-align: center;
+
+  p {
+    color: #909090;
+    font-size: 14px;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+}
+
+.btn-link {
+  background: none;
+  color: #0284c7;
+  padding: 0;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline;
+  transition: color 0.25s ease;
+
+  &:hover {
+    color: #0369a1;
+    text-decoration: underline;
+  }
+}
+
+.spinner-border {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+
+  &.spinner-border-sm {
+    width: 12px;
+    height: 12px;
+    border-width: 1.5px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-footer {
+  margin-top: 44px;
+  text-align: center;
+
+  p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-box {
+    padding: 36px 24px;
+    max-width: 100%;
+  }
+
+  .login-header h1 {
+    font-size: 28px;
+  }
+}

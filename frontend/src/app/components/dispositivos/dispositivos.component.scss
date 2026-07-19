@@ -1,0 +1,64 @@
+.dispositivo-card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  &.add-card {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+
+    .card-body {
+      text-align: center;
+
+      h5 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+    }
+
+    &:hover {
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+  }
+}
+
+.status-online {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.status-offline {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 1.5rem;
+
+  h5 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  small {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #666;
+  }
+}
+
+.btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}

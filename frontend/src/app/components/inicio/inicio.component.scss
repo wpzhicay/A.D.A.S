@@ -1,0 +1,53 @@
+.stat-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-item {
+    margin: 1rem 0;
+
+    .label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 0.3rem;
+    }
+
+    .value {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+  }
+}
+
+.progress {
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.3);
+
+  .progress-bar {
+    background-color: #ffc107;
+  }
+}
+
+.status-online {
+  color: #4caf50;
+}
+
+.status-offline {
+  color: #f44336;
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

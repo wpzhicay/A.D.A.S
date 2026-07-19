@@ -1,0 +1,37 @@
+# Node modules
+node_modules/
+npm-debug.log
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+out-tsc/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# Angular cache (archivos muy grandes)
+.angular/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Database
+*.db
+
+# Misc
+*.log
+logs/
+*.pid
+temp/
