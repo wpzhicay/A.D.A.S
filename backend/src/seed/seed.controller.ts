@@ -1,53 +1,20 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
-import { Usuario } from '../database/entities/usuario.entity';
+import { Controller, Post, Delete } from '@nestjs/common';
+import { SeedService } from './seed.service';
 
 @Controller('api/seed')
 export class SeedController {
-  constructor(
-    @InjectRepository(Usuario)
-    private usuariosRepository: Repository<Usuario>,
-  ) {}
+  constructor(private seedService: SeedService) {}
 
-  @Post('create-test-user')
-  async createTestUser() {
-    // Check if user already exists
-    const existingUser = await this.usuariosRepository.findOne({
-      where: { correo: 'admin@test.com' },
-    });
+  @Post('init')
+  async initDatabase() {
+    return await this.seedService.seedDatabase();
+  }
 
-    if (existingUser) {
-      return {
-        message: 'Test user already exists',
-        user: {
-          id: existingUser.id,
-          nombre: existingUser.nombre,
-          correo: existingUser.correo,
-        },
-      };
-    }
-
-    // Create test user
-    const hashedPassword = await bcrypt.hash('password123', 10);
-
-    const testUser = this.usuariosRepository.create({
-      nombre: 'Admin Test',
-      correo: 'admin@test.com',
-      password: hashedPassword,
-    });
-
-    const savedUser = await this.usuariosRepository.save(testUser);
-
-    return {
-      message: 'Test user created successfully',
-      user: {
-        id: savedUser.id,
-        nombre: savedUser.nombre,
-        correo: savedUser.correo,
-      },
-      credentials: {
+  @Delete('reset')
+  async resetDatabase() {
+    return await this.seedService.deleteAllUsers();
+  }
+}
         email: 'admin@test.com',
         password: 'password123',
       },
