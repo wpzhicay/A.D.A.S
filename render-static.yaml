@@ -1,0 +1,8 @@
+services:
+  - type: static_site
+    name: solar-generator-frontend
+    buildCommand: cd frontend && npm install --legacy-peer-deps && npm run build
+    staticPublishPath: frontend/dist/solar-generator-frontend
+    envVars:
+      - key: NODE_ENV
+        value: production
