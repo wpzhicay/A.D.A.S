@@ -25,12 +25,19 @@ export class DatabaseService implements OnModuleInit {
       await this.getDataSource();
       this.logger.log('✅ Database connected successfully');
     } catch (error) {
-      const errorMsg = error instanceof Error 
-        ? `${error.name}: ${error.message}` 
-        : String(error);
+      let errorMsg = 'Unknown error';
+      
+      if (error instanceof AggregateError) {
+        // Handle AggregateError (multiple errors combined)
+        errorMsg = error.errors?.map(e => e instanceof Error ? e.message : String(e)).join('; ') || error.message;
+      } else if (error instanceof Error) {
+        errorMsg = `${error.name}: ${error.message}`;
+      } else {
+        errorMsg = String(error);
+      }
       
       this.logger.warn(
-        `⚠️ Database connection failed: ${errorMsg.substring(0, 100)} (Attempt ${this.connectionAttempts + 1}/${this.maxRetries})`,
+        `⚠️ Database connection failed: ${errorMsg.substring(0, 200)} (Attempt ${this.connectionAttempts + 1}/${this.maxRetries})`,
       );
       
       if (this.connectionAttempts < this.maxRetries) {
@@ -40,7 +47,7 @@ export class DatabaseService implements OnModuleInit {
         this.logger.log(`⏳ Retrying in ${delayMs}ms...`);
         setTimeout(() => this.connectAsync(), delayMs);
       } else {
-        this.logger.error(`❌ Max database connection retries reached. Last error: ${errorMsg.substring(0, 200)}`);
+        this.logger.error(`❌ Max database connection retries reached. Last error: ${errorMsg.substring(0, 500)}`);
       }
     }
   }
