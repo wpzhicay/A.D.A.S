@@ -37,6 +37,6 @@ services:
 databases:
   - name: solar-generator-db
     databaseName: railway
-    user: postgres
+    user: solar_admin
     region: ohio
     plan: free

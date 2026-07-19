@@ -19,7 +19,7 @@
    - Dashboard → New → PostgreSQL
    - Name: `solar-generator-db`
    - Database: `railway`
-   - User: `postgres`
+   - User: `solar_admin`
    - Plan: **Free**
 
 7. **Configurar Environment Variables** en el Web Service:
