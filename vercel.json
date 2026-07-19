@@ -1,0 +1,16 @@
+{
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist/frontend",
+  "env": {
+    "API_URL": {
+      "description": "Backend API URL",
+      "default": "http://localhost:3000/api"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

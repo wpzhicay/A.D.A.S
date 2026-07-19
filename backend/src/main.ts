@@ -8,17 +8,25 @@ async function bootstrap() {
   // Get frontend URL from environment or default to localhost
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
   
-  // Enable CORS
+  // Enable CORS with proper configuration for production
   app.enableCors({
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-      // Allow localhost on any port for development
-      if (!origin || origin.includes('localhost') || origin === frontendUrl) {
+      // Allow requests from frontend URL or localhost
+      const allowedOrigins = [
+        frontendUrl,
+        'http://localhost:4200',
+        'http://localhost:3000',
+      ];
+      
+      if (!origin || allowedOrigins.some(allowed => origin.includes(allowed) || origin === allowed)) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(null, false);
       }
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   // Validation pipe

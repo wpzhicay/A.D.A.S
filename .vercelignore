@@ -1,0 +1,16 @@
+.git
+.gitignore
+backend
+esp32
+.github
+test-db-connection.ts
+test-connection.js
+railway.json
+render.yaml
+.renderignore
+DEPLOYMENT_GUIDE.md
+PROJECT_STATUS.md
+README.md
+SETUP.md
+package.json
+Procfile

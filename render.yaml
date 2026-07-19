@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: solar-generator-backend
+    env: node
+    region: ohio
+    plan: free
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DB_HOST
+        fromDatabase:
+          name: solar-generator-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: solar-generator-db
+          property: port
+      - key: DB_USERNAME
+        fromDatabase:
+          name: solar-generator-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: solar-generator-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: solar-generator-db
+          property: database
+      - key: JWT_SECRET
+        sync: false
+
+databases:
+  - name: solar-generator-db
+    databaseName: railway
+    user: postgres
+    region: ohio
+    plan: free
