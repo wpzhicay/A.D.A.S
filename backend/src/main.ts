@@ -6,18 +6,16 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
   // Get frontend URL from environment or default to localhost
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
+ const frontendUrl = process.env.FRONTEND_URL || 'https://agent-6a5d1d4413e70a7a03--lambent-centaur-1f63a7.netlify.app';
   
   // Enable CORS with proper configuration for production
   app.enableCors({
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
       // Allow requests from frontend URL or localhost
-      const allowedOrigins = [
-        frontendUrl,
-        'http://localhost:4200',
-        'http://localhost:3000',
-      ];
-      
+     const allowedOrigins = [
+  frontendUrl,
+  'http://localhost:4200',
+];
       if (!origin || allowedOrigins.some(allowed => origin.includes(allowed) || origin === allowed)) {
         callback(null, true);
       } else {
