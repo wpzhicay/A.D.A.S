@@ -53,28 +53,42 @@ export class DatabaseService implements OnModuleInit {
       entities: [Usuario, Dispositivo, Medicion, Alerta],
       synchronize: false,
       logging: false,
-      connectTimeoutMS: 10000,
-      requestTimeout: 30000,
-      ssl: {
-        rejectUnauthorized: false,
+      poolErrorHandler: (error) => {
+        this.logger.error(`Database pool error: ${error}`);
       },
-      retryAttempts: 3,
-      retryDelay: 3000,
+    };
+
+    // PostgreSQL connection timeout settings
+    const postgresOptions = {
+      statementTimeout: 30000,
+      connectionTimeoutMillis: 30000,
+      idleInTransactionSessionTimeout: 30000,
     };
 
     if (databaseUrl) {
       options.url = databaseUrl;
+      options.extra = postgresOptions;
     } else {
       options.host = this.configService.get('DB_HOST', 'localhost');
       options.port = parseInt(this.configService.get('DB_PORT', '5432'));
       options.username = this.configService.get('DB_USERNAME', 'postgres');
       options.password = this.configService.get('DB_PASSWORD');
       options.database = this.configService.get('DB_NAME', 'railway');
+      options.extra = postgresOptions;
     }
 
+    // Try without SSL first
     this.dataSource = new DataSource(options);
-    await this.dataSource.initialize();
-    return this.dataSource;
+    try {
+      await this.dataSource.initialize();
+      return this.dataSource;
+    } catch (error) {
+      // If connection fails, try with SSL disabled explicitly
+      options.ssl = false;
+      this.dataSource = new DataSource(options);
+      await this.dataSource.initialize();
+      return this.dataSource;
+    }
   }
 
   async isConnected(): Promise<boolean> {
