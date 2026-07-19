@@ -11,12 +11,10 @@ async function bootstrap() {
   // Enable CORS with proper configuration for production
   app.enableCors({
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-      // Allow requests from frontend URL or localhost
-      const allowedOrigins = [
-        frontendUrl,
-        'http://localhost:4200',
-        'http://localhost:3000',
-      ];
+     const allowedOrigins = [
+  'https://agent-6a5d1d4413e70a7a03--lambent-centaur-1f63a7.netlify.app',
+  'http://localhost:4200',
+];
       
       if (!origin || allowedOrigins.some(allowed => origin.includes(allowed) || origin === allowed)) {
         callback(null, true);

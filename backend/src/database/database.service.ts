@@ -64,9 +64,7 @@ export class DatabaseService implements OnModuleInit {
       password,
       database,
       entities: [Usuario, Dispositivo, Medicion, Alerta],
-      synchronize: false,
-      logging: false,
-      ssl: false,
+      ssl: true,
       // Pool configuration
       maxConnections: 3,
       connectionTimeoutMillis: 60000,
