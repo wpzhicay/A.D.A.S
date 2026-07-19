@@ -8,6 +8,7 @@ import { MedicionesModule } from './mediciones/mediciones.module';
 import { UbicacionesModule } from './ubicaciones/ubicaciones.module';
 import { AlertasModule } from './alertas/alertas.module';
 import { ConfiguracionModule } from './configuracion/configuracion.module';
+import { HealthModule } from './health/health.module';
 import { Usuario } from './database/entities/usuario.entity';
 import { Dispositivo } from './database/entities/dispositivo.entity';
 import { Medicion } from './database/entities/medicion.entity';
@@ -39,6 +40,7 @@ import { Alerta } from './database/entities/alerta.entity';
     UbicacionesModule,
     AlertasModule,
     ConfiguracionModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [],
