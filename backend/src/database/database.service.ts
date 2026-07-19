@@ -25,12 +25,15 @@ export class DatabaseService implements OnModuleInit {
       await this.getDataSource();
       this.logger.log('Database connected successfully');
     } catch (error) {
-      this.logger.warn(`Database connection failed, retrying... Attempt ${this.connectionAttempts + 1}/${this.maxRetries}`);
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      this.logger.warn(
+        `Database connection failed: ${errorMsg} (Attempt ${this.connectionAttempts + 1}/${this.maxRetries})`,
+      );
       if (this.connectionAttempts < this.maxRetries) {
         this.connectionAttempts++;
         setTimeout(() => this.connectAsync(), 5000);
       } else {
-        this.logger.error('Max database connection retries reached');
+        this.logger.error(`Max database connection retries reached. Last error: ${errorMsg}`);
       }
     }
   }
@@ -48,7 +51,13 @@ export class DatabaseService implements OnModuleInit {
       entities: [Usuario, Dispositivo, Medicion, Alerta],
       synchronize: false,
       logging: false,
-      ssl: false,
+      connectTimeoutMS: 10000,
+      requestTimeout: 30000,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      retryAttempts: 3,
+      retryDelay: 3000,
     };
 
     if (databaseUrl) {
