@@ -42,10 +42,6 @@ function parseDatabaseUrl(url: string): {
           entities: [Usuario, Dispositivo, Medicion, Alerta],
           synchronize: false,
           logging: false,
-          ssl:
-            process.env.NODE_ENV === 'production'
-              ? { rejectUnauthorized: false }
-              : false,
           extra: {
             max: 3,
             idleTimeoutMillis: 60000,
@@ -67,26 +63,32 @@ function parseDatabaseUrl(url: string): {
               username: parsed.username,
               password: parsed.password,
               database: parsed.database,
+              ssl: true, // Remote database requires SSL
             };
             logger.log(
-              `✓ Database config: ${config.host}:${config.port}/${config.database}`,
+              `✓ Database config: ${config.host}:${config.port}/${config.database} (SSL: enabled)`,
             );
           } else {
             // Use individual env variables for development
             logger.log(
               '🔧 Using individual DB environment variables',
             );
+            const host = configService.get<string>('DB_HOST') || 'localhost';
             config = {
               ...config,
-              host: configService.get<string>('DB_HOST') || 'localhost',
+              host,
               port: parseInt(configService.get<string>('DB_PORT', '5432'), 10),
               username:
                 configService.get<string>('DB_USERNAME') || 'postgres',
               password: configService.get<string>('DB_PASSWORD'),
               database: configService.get<string>('DB_NAME') || 'railway',
+              // Only enable SSL for non-localhost connections
+              ssl: host !== 'localhost' && host !== '127.0.0.1'
+                ? true
+                : false,
             };
             logger.log(
-              `✓ Database config: ${config.host}:${config.port}/${config.database}`,
+              `✓ Database config: ${config.host}:${config.port}/${config.database} (SSL: ${config.ssl ? 'enabled' : 'disabled'})`,
             );
           }
         } catch (error) {
