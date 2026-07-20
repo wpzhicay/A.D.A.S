@@ -17,12 +17,13 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
   lineaRuta!: L.Polyline;
   ruta: L.LatLngExpression[] = [];
   
-  latitud = 0;
-  longitud = 0;
-  voltaje = 0;
-  bateria = 0;
-  velocidad = 0;
-  temperatura = 0;
+  latitud: number = 0;
+  longitud: number = 0;
+  voltaje: number = 0;
+  corriente: number = 0;
+  bateria: number = 0;
+  velocidad: number = 0;
+  temperatura: number = 0;
   private updateSubscription!: Subscription;
   private updateRutaSubscription!: Subscription;
 
@@ -57,12 +58,18 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  inicializarMapa() {
-    this.map = L.map('map').setView([-2.926469, -78.951933], 15);
+inicializarMapa() {
+  console.log("Entró a inicializarMapa");
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-    }).addTo(this.map);
+  this.map = L.map('map').setView([-2.926469, -78.951933], 15);
+
+  console.log("Mapa creado");
+
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+  }).addTo(this.map);
+
+  console.log("Tiles cargados");
 
     // Crear polyline vacío para la ruta
     this.lineaRuta = L.polyline(this.ruta, {
@@ -114,7 +121,8 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
           this.latitud = this.toNumber(ultima.latitud, -2.926469);
           this.longitud = this.toNumber(ultima.longitud, -78.951933);
           this.voltaje = this.toNumber(ultima.voltaje, 0);
-          this.bateria = this.toNumber(ultima.porcentajeBateria, 0);
+          this.corriente = this.toNumber(ultima.corriente, 0);
+          this.bateria = this.toNumber(ultima.porcentaje_bateria, 0);
           this.velocidad = this.toNumber(ultima.velocidad, 0);
           this.temperatura = this.toNumber(ultima.temperatura, 0);
 
@@ -138,7 +146,7 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
     return `
       <b>☀️ ESP32 Solar</b><br>
       Voltaje: ${this.voltaje.toFixed(2)} V<br>
-      Corriente: ${this.bateria.toFixed(2)} A<br>
+      Corriente: ${this.corriente.toFixed(2)} A<br>
       Temperatura: ${this.temperatura.toFixed(2)} °C<br>
       Batería: ${this.bateria.toFixed(0)} %<br>
       Velocidad: ${this.velocidad.toFixed(2)} km/h
