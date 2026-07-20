@@ -24,14 +24,25 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
   velocidad = 0;
   temperatura = 0;
   private updateSubscription!: Subscription;
+  private updateRutaSubscription!: Subscription;
 
   constructor(private medicionesService: MedicionesService) {}
 
   ngAfterViewInit() {
     this.inicializarMapa();
+    
+    // Cargar ruta histórica una sola vez al iniciar
+    this.cargarRuta();
+    
+    // Actualizar ruta cada minuto (60000ms)
+    this.updateRutaSubscription = interval(60000).subscribe(() => {
+      this.cargarRuta();
+    });
+    
+    // Cargar medición actual
     this.cargarMedicion();
     
-    // Actualizar cada 10 segundos
+    // Actualizar medición cada 10 segundos
     this.updateSubscription = interval(10000).subscribe(() => {
       this.cargarMedicion();
     });
@@ -40,6 +51,9 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     if (this.updateSubscription) {
       this.updateSubscription.unsubscribe();
+    }
+    if (this.updateRutaSubscription) {
+      this.updateRutaSubscription.unsubscribe();
     }
   }
 
@@ -73,6 +87,25 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
       .bindPopup(this.generarPopup());
   }
 
+  cargarRuta() {
+    this.medicionesService.getMedicionRuta().subscribe({
+      next: (data: any[]) => {
+        if (data && data.length > 0) {
+          // Convertir datos del API a coordenadas Leaflet
+          this.ruta = data.map((p) => [
+            Number(p.latitud),
+            Number(p.longitud),
+          ]);
+          // Actualizar polyline con todos los puntos históricos
+          this.lineaRuta.setLatLngs(this.ruta);
+        }
+      },
+      error: (error) => {
+        console.error('Error cargando ruta:', error);
+      },
+    });
+  }
+
   cargarMedicion() {
     this.medicionesService.getMediciones().subscribe({
       next: (data: any[]) => {
@@ -84,11 +117,6 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
           this.bateria = Number(ultima.porcentajeBateria) || 0;
           this.velocidad = Number(ultima.velocidad) || 0;
           this.temperatura = Number(ultima.temperatura) || 0;
-
-          // Agregar nuevo punto a la ruta
-          const nuevoPunto: L.LatLngExpression = [this.latitud, this.longitud];
-          this.ruta.push(nuevoPunto);
-          this.lineaRuta.setLatLngs(this.ruta);
 
           this.actualizarMarcador();
         }

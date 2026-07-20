@@ -97,4 +97,9 @@ export class MedicionesService {
   getMedicionPorDispositivo(idDispositivo: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${idDispositivo}`);
   }
+
+  // Método para obtener solo la ruta GPS (optimizado)
+  getMedicionRuta(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/ruta`);
+  }
 }
