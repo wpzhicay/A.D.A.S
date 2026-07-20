@@ -32,7 +32,7 @@ export class DispositivosComponent implements OnInit {
   }
 
   cargarDispositivos(): void {
-    this.dispositivosService.obtenerDispositivos().subscribe({
+    this.dispositivosService.obtenerDispositivosPublico().subscribe({
       next: (datos) => {
         this.dispositivos = datos;
       },
