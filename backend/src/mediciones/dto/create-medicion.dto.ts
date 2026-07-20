@@ -41,6 +41,7 @@ export class CreateMedicionDto {
   velocidad?: number;
 
 
-  fecha: Date;
+  @IsOptional()
+fecha?: Date;
 
 }
