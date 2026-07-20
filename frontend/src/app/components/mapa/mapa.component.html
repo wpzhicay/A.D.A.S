@@ -1,14 +1,11 @@
-<div class="container">
-  <h1>Mapa</h1>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-header">Ubicación en Tiempo Real</div>
-        <div class="card-body">
-          <p>Mapa de Leaflet será mostrado aquí</p>
-          <p>📍 Coordenadas y velocidad del dispositivo</p>
-        </div>
-      </div>
-    </div>
+<div class="card">
+  <h2>📍 Ubicación en Tiempo Real</h2>
+
+  <div id="map"></div>
+
+  <div class="datos">
+    <p><strong>Latitud:</strong> {{ latitud }}</p>
+    <p><strong>Longitud:</strong> {{ longitud }}</p>
+    <p><strong>Velocidad:</strong> {{ velocidad }} km/h</p>
   </div>
 </div>
