@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BaseChartDirective } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import { MedicionesService } from '../../services/mediciones.service';
 import { interval, Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { interval, Subscription } from 'rxjs';
   templateUrl: './historial.component.html',
   styleUrls: ['./historial.component.scss'],
   standalone: true,
-  imports: [CommonModule, BaseChartDirective],
+  imports: [CommonModule, NgChartsModule],
 })
 export class HistorialComponent implements AfterViewInit, OnDestroy {
   // Datos para los gráficos
