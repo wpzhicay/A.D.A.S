@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   cargarDispositivos(): void {
-    this.dispositivosService.obtenerDispositivos().pipe(takeUntil(this.destroy$)).subscribe({
+    this.dispositivosService.obtenerDispositivosPublico().pipe(takeUntil(this.destroy$)).subscribe({
       next: (dispositivos) => {
         this.dispositivos = dispositivos;
         if (dispositivos.length > 0) {
@@ -99,6 +99,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.cargarMediciones();
         }
       },
+      error: (error) => {
+        console.error('Error cargando dispositivos:', error);
+        this.loading = false;
+      }
     });
   }
 

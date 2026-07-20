@@ -26,6 +26,10 @@ export class DispositivosService {
     return this.http.get<Dispositivo[]>(this.apiUrl);
   }
 
+  obtenerDispositivosPublico(): Observable<Dispositivo[]> {
+    return this.http.get<Dispositivo[]>(`${this.apiUrl}/publico`);
+  }
+
   obtenerDispositivo(id: number): Observable<Dispositivo> {
     return this.http.get<Dispositivo>(`${this.apiUrl}/${id}`);
   }
