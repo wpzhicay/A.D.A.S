@@ -27,10 +27,18 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
   private updateSubscription!: Subscription;
   private updateRutaSubscription!: Subscription;
 
-  constructor(private medicionesService: MedicionesService) {}
+  constructor(private medicionesService: MedicionesService) {
+    console.log("🔴 Constructor del MapaComponent");
+  }
 
   ngAfterViewInit() {
-    this.inicializarMapa();
+    console.log("🟡 ngAfterViewInit iniciado");
+    try {
+      this.inicializarMapa();
+      console.log("✅ Mapa inicializado");
+    } catch (error) {
+      console.error("❌ Error inicializando mapa:", error);
+    }
     
     // Cargar ruta histórica una sola vez al iniciar
     this.cargarRuta();
