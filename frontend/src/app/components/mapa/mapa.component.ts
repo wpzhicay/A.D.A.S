@@ -111,12 +111,12 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
       next: (data: any[]) => {
         if (data && data.length > 0) {
           const ultima = data[0];
-          this.latitud = Number(ultima.latitud) || -2.926469;
-          this.longitud = Number(ultima.longitud) || -78.951933;
-          this.voltaje = Number(ultima.voltaje) || 0;
-          this.bateria = Number(ultima.porcentajeBateria) || 0;
-          this.velocidad = Number(ultima.velocidad) || 0;
-          this.temperatura = Number(ultima.temperatura) || 0;
+          this.latitud = this.toNumber(ultima.latitud, -2.926469);
+          this.longitud = this.toNumber(ultima.longitud, -78.951933);
+          this.voltaje = this.toNumber(ultima.voltaje, 0);
+          this.bateria = this.toNumber(ultima.porcentajeBateria, 0);
+          this.velocidad = this.toNumber(ultima.velocidad, 0);
+          this.temperatura = this.toNumber(ultima.temperatura, 0);
 
           this.actualizarMarcador();
         }
@@ -143,5 +143,10 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
       Batería: ${this.bateria.toFixed(0)} %<br>
       Velocidad: ${this.velocidad.toFixed(2)} km/h
     `;
+  }
+
+  private toNumber(value: any, defaultValue: number): number {
+    const num = Number(value);
+    return isNaN(num) ? defaultValue : num;
   }
 }
