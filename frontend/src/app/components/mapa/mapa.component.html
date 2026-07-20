@@ -4,8 +4,11 @@
   <div id="map"></div>
 
   <div class="datos">
-    <p><strong>Latitud:</strong> {{ latitud }}</p>
-    <p><strong>Longitud:</strong> {{ longitud }}</p>
-    <p><strong>Velocidad:</strong> {{ velocidad }} km/h</p>
+    <p><strong>Latitud:</strong> {{ latitud | number: '1.6-6' }}</p>
+    <p><strong>Longitud:</strong> {{ longitud | number: '1.6-6' }}</p>
+    <p><strong>Voltaje:</strong> {{ voltaje | number: '1.2-2' }} V</p>
+    <p><strong>Batería:</strong> {{ bateria | number: '1.0-0' }} %</p>
+    <p><strong>Velocidad:</strong> {{ velocidad | number: '1.2-2' }} km/h</p>
+    <p><strong>Temperatura:</strong> {{ temperatura | number: '1.1-1' }} °C</p>
   </div>
 </div>

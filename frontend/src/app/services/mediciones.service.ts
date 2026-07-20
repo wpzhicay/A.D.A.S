@@ -87,4 +87,14 @@ export class MedicionesService {
   getSelectedDevice$(): Observable<number> {
     return this.selectedDeviceId$.asObservable();
   }
+
+  // Método para obtener todas las mediciones del API
+  getMediciones(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  // Método para obtener mediciones por dispositivo
+  getMedicionPorDispositivo(idDispositivo: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${idDispositivo}`);
+  }
 }
