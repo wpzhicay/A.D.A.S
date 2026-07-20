@@ -30,6 +30,10 @@ export class MedicionesController {
     return this.medicionesService.findAll();
   }
 
+  @Get('ruta')
+  findRuta() {
+    return this.medicionesService.findRuta();
+  }
 
   @Get(':id')
   findByDispositivo(
@@ -37,5 +41,4 @@ export class MedicionesController {
   ) {
     return this.medicionesService.findByDispositivo(id);
   }
-
 }

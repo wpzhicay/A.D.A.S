@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Not, IsNull } from 'typeorm';
 
 import { Medicion } from '../database/entities/medicion.entity';
 import { Dispositivo } from '../database/entities/dispositivo.entity';
@@ -51,6 +51,23 @@ export class MedicionesService {
       },
       order: {
         fecha: 'DESC',
+      },
+    });
+  }
+
+  async findRuta() {
+    return this.medicionRepository.find({
+      select: {
+        latitud: true,
+        longitud: true,
+        fecha: true,
+      },
+      where: {
+        latitud: Not(IsNull()),
+        longitud: Not(IsNull()),
+      },
+      order: {
+        fecha: 'ASC',
       },
     });
   }
