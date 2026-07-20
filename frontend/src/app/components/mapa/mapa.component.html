@@ -4,11 +4,20 @@
   <div id="map"></div>
 
   <div class="datos">
+    <h3>📡 Datos Actuales</h3>
     <p><strong>Latitud:</strong> {{ latitud | number: '1.6-6' }}</p>
     <p><strong>Longitud:</strong> {{ longitud | number: '1.6-6' }}</p>
     <p><strong>Voltaje:</strong> {{ voltaje | number: '1.2-2' }} V</p>
     <p><strong>Batería:</strong> {{ bateria | number: '1.0-0' }} %</p>
     <p><strong>Velocidad:</strong> {{ velocidad | number: '1.2-2' }} km/h</p>
     <p><strong>Temperatura:</strong> {{ temperatura | number: '1.1-1' }} °C</p>
+  </div>
+
+  <div class="ruta-info">
+    <h3>🛤️ Historial de Ruta</h3>
+    <p><strong>Puntos registrados:</strong> {{ ruta.length }}</p>
+    <p class="ruta-desc">
+      La línea <span style="color: #FF6B35;">━━━</span> muestra el recorrido del generador solar
+    </p>
   </div>
 </div>

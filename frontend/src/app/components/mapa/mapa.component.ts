@@ -14,6 +14,9 @@ import { interval, Subscription } from 'rxjs';
 export class MapaComponent implements AfterViewInit, OnDestroy {
   map!: L.Map;
   marker!: L.Marker;
+  lineaRuta!: L.Polyline;
+  ruta: L.LatLngExpression[] = [];
+  
   latitud = 0;
   longitud = 0;
   voltaje = 0;
@@ -47,6 +50,14 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
       maxZoom: 19,
     }).addTo(this.map);
 
+    // Crear polyline vacío para la ruta
+    this.lineaRuta = L.polyline(this.ruta, {
+      color: '#FF6B35',
+      weight: 3,
+      opacity: 0.8,
+      dashArray: '5, 5',
+    }).addTo(this.map);
+
     const icon = L.icon({
       iconUrl:
         'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
@@ -73,6 +84,11 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
           this.bateria = Number(ultima.porcentajeBateria) || 0;
           this.velocidad = Number(ultima.velocidad) || 0;
           this.temperatura = Number(ultima.temperatura) || 0;
+
+          // Agregar nuevo punto a la ruta
+          const nuevoPunto: L.LatLngExpression = [this.latitud, this.longitud];
+          this.ruta.push(nuevoPunto);
+          this.lineaRuta.setLatLngs(this.ruta);
 
           this.actualizarMarcador();
         }

@@ -19,10 +19,21 @@ h2 {
   color: #333;
 }
 
+h3 {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
 .datos {
   margin-top: 15px;
   font-size: 16px;
   line-height: 1.8;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
 }
 
 .datos p {
@@ -33,3 +44,28 @@ h2 {
 .datos strong {
   color: #333;
 }
+
+.ruta-info {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f0f7ff;
+  border-radius: 8px;
+  border-left: 4px solid #FF6B35;
+  font-size: 14px;
+}
+
+.ruta-info p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.ruta-info strong {
+  color: #333;
+}
+
+.ruta-desc {
+  font-style: italic;
+  color: #777;
+  margin-top: 8px !important;
+}
+
