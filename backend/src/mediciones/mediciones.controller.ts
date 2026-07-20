@@ -5,14 +5,12 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
 import { MedicionesService } from './mediciones.service';
 import { CreateMedicionDto } from './dto/create-medicion.dto';
 
 @Controller('api/mediciones')
-@UseGuards(JwtAuthGuard)
 export class MedicionesController {
 
   constructor(
@@ -26,10 +24,12 @@ export class MedicionesController {
     return this.medicionesService.create(dto);
   }
 
+
   @Get()
   findAll() {
     return this.medicionesService.findAll();
   }
+
 
   @Get(':id')
   findByDispositivo(
@@ -37,4 +37,5 @@ export class MedicionesController {
   ) {
     return this.medicionesService.findByDispositivo(id);
   }
+
 }
