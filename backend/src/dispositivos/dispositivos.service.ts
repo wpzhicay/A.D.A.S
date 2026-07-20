@@ -45,6 +45,10 @@ export class DispositivosService {
     });
   }
 
+  async obtenerTodos() {
+    return this.dispositivosRepository.find();
+  }
+
   async obtenerDispositivo(id: number, idUsuario: number) {
     const dispositivo = await this.dispositivosRepository.findOne({
       where: { id, id_usuario: idUsuario },
