@@ -75,6 +75,7 @@ inicializarMapa() {
 
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
+    attribution: '© OpenStreetMap contributors',
   }).addTo(this.map);
 
   console.log("Tiles cargados");
@@ -87,19 +88,12 @@ inicializarMapa() {
       dashArray: '5, 5',
     }).addTo(this.map);
 
-    const icon = L.icon({
-      iconUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
-      shadowUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-    });
-
-    this.marker = L.marker([-2.926469, -78.951933], { icon })
+    // Usar marcador por defecto de Leaflet (sin cargar imágenes externas)
+    this.marker = L.marker([-2.926469, -78.951933])
       .addTo(this.map)
       .bindPopup(this.generarPopup());
+    
+    console.log("Marcador creado");
   }
 
   cargarRuta() {
