@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DispositivosService } from '../../services/dispositivos.service';
 import { MedicionesService, Medicion } from '../../services/mediciones.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -25,7 +24,6 @@ interface ContactoEmergencia {
   imports: [CommonModule, FormsModule, NgChartsModule],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  dispositivos: any[] = [];
   selectedDeviceId: number = 1;
   ultimaMedicion: Medicion | null = null;
   mediciones24h: Medicion[] = [];
@@ -63,14 +61,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private dispositivosService: DispositivosService,
     private medicionesService: MedicionesService,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.cargarUsuarioActual();
-    this.cargarDispositivos();
+    this.cargarMediciones();
     this.cargarContactosEmergencia();
     this.suscribirMedicionesTiempoReal();
   }
@@ -90,21 +87,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  cargarDispositivos(): void {
-    this.dispositivosService.obtenerDispositivosPublico().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (dispositivos) => {
-        this.dispositivos = dispositivos;
-        if (dispositivos.length > 0) {
-          this.selectedDeviceId = dispositivos[0].id || 1;
-          this.cargarMediciones();
-        }
-      },
-      error: (error) => {
-        console.error('Error cargando dispositivos:', error);
-        this.loading = false;
-      }
-    });
-  }
+
 
   cargarMediciones(): void {
     this.medicionesService.obtenerMediciones24h(this.selectedDeviceId).pipe(takeUntil(this.destroy$)).subscribe({
@@ -125,14 +108,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.ultimaMedicion = medicion;
         },
       });
-  }
-
-  cambiarDispositivo(idDispositivo: number): void {
-    this.selectedDeviceId = idDispositivo;
-    this.medicionesService.setSelectedDevice(idDispositivo);
-    this.loading = true;
-    this.cargarMediciones();
-    this.suscribirMedicionesTiempoReal();
   }
 
   generarGraficos(): void {
@@ -196,8 +171,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getDispositivoNombre(): string {
-    const dispositivo = this.dispositivos.find((d) => d.id === this.selectedDeviceId);
-    return dispositivo?.nombre || 'Panel Solar';
+    return 'Panel Solar';
   }
 
   getEstadoColor(): string {
