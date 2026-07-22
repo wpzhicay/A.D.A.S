@@ -20,7 +20,7 @@ export class MedicionesService {
   async create(dto: CreateMedicionDto) {
 
     const dispositivo = await this.dispositivoRepository.findOne({
-      where: { id: dto.id_dispositivo },
+      where: { id: dto.idDispositivo },
     });
 
     if (!dispositivo) {
@@ -47,7 +47,7 @@ export class MedicionesService {
   async findByDispositivo(id: number) {
     return this.medicionRepository.find({
       where: {
-        id_dispositivo: id,
+        idDispositivo: id,
       },
       order: {
         fecha: 'DESC',
@@ -61,6 +61,10 @@ export class MedicionesService {
         latitud: true,
         longitud: true,
         fecha: true,
+        voltaje: true,
+        corriente: true,
+        temperatura: true,
+        porcentajeBateria: true,
       },
       where: {
         latitud: Not(IsNull()),
