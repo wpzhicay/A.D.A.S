@@ -99,16 +99,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  suscribirMedicionesTiempoReal(): void {
-    this.medicionesService
-      .obtenerMedicionesEnTiempoReal(this.selectedDeviceId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (medicion) => {
-          this.ultimaMedicion = medicion;
-        },
-      });
-  }
+suscribirMedicionesTiempoReal(): void {
+  this.medicionesService
+    .obtenerMedicionesEnTiempoReal(this.selectedDeviceId)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (medicion) => {
+        console.log('Medición recibida en dashboard:', medicion);
+
+        this.ultimaMedicion = medicion;
+        this.latitud = medicion.latitud;
+        this.longitud = medicion.longitud;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error cargando medición:', error);
+        this.loading = false;
+      },
+    });
+}
 
   generarGraficos(): void {
     // Gráfico 1: Converter (Stacked Bar Chart)
@@ -175,9 +184,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getEstadoColor(): string {
-    return this.ultimaMedicion?.voltaje ?? 0 > 11 ? 'online' : 'offline';
-  }
-
+  const voltaje = Number(this.ultimaMedicion?.voltaje ?? 0);
+  return voltaje > 11 ? 'online' : 'offline';
+}
   // Métodos de navegación y acciones
   verDetalleMetrica(metrica: string): void {
     console.log('Ver detalle de:', metrica);

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, interval } from 'rxjs';
-import { switchMap, catchError, startWith } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable, interval, of } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 
 export interface Medicion {
@@ -13,17 +12,30 @@ export interface Medicion {
   temperatura: number;
   porcentajeBateria: number;
   idDispositivo: number;
+  latitud: number;
+  longitud: number;
+  velocidad: number;
   fecha: Date;
+  estado?: string;
 }
 
-export interface DashboardData {
-  ultimaMedicion: Medicion;
-  mediciones24h: Medicion[];
-  estadistica: {
-    voltajePromedio: number;
-    corrientePromedio: number;
-    potenciaMaxima: number;
-    temperaturaMcima: number;
+interface MedicionApi {
+  id: number;
+  voltaje: string | number;
+  corriente: string | number;
+  potencia: string | number;
+  temperatura: string | number;
+  porcentaje_bateria: string | number;
+  id_dispositivo: number;
+  latitud: string | number;
+  longitud: string | number;
+  velocidad: string | number;
+  fecha: string;
+  dispositivo?: {
+    id: number;
+    nombre: string;
+    serie: string;
+    estado: string;
   };
 }
 
@@ -36,46 +48,80 @@ export class MedicionesService {
 
   constructor(private http: HttpClient) {}
 
-  // Mock data for development - simulates real-time updates
-  private generateMockMedicion(idDispositivo: number): Medicion {
+  private convertirMedicion(medicion: MedicionApi): Medicion {
     return {
-      voltaje: 12.5 + Math.random() * 2,
-      corriente: 1.8 + Math.random() * 1.5,
-      potencia: 20 + Math.random() * 10,
-      temperatura: 28 + Math.random() * 8,
-      porcentajeBateria: 75 + Math.random() * 20,
-      idDispositivo,
-      fecha: new Date(),
+      id: medicion.id,
+      voltaje: Number(medicion.voltaje) || 0,
+      corriente: Number(medicion.corriente) || 0,
+      potencia: Number(medicion.potencia) || 0,
+      temperatura: Number(medicion.temperatura) || 0,
+      porcentajeBateria: Number(medicion.porcentaje_bateria) || 0,
+      idDispositivo: Number(medicion.id_dispositivo) || 0,
+      latitud: Number(medicion.latitud) || 0,
+      longitud: Number(medicion.longitud) || 0,
+      velocidad: Number(medicion.velocidad) || 0,
+      fecha: new Date(medicion.fecha),
+      estado: medicion.dispositivo?.estado ?? 'OFFLINE',
     };
   }
 
   obtenerUltimaMedicion(idDispositivo: number): Observable<Medicion> {
-    // En producción, esto vendría del backend
-    return of(this.generateMockMedicion(idDispositivo));
+    return this.http.get<MedicionApi[]>(this.apiUrl).pipe(
+      map((mediciones) => {
+        const medicionesDispositivo = mediciones.filter(
+          (medicion) =>
+            Number(medicion.id_dispositivo) === Number(idDispositivo),
+        );
+
+        if (medicionesDispositivo.length === 0) {
+          throw new Error('No existen mediciones para este dispositivo');
+        }
+
+        // La API ya devuelve el registro más reciente primero.
+        return this.convertirMedicion(medicionesDispositivo[0]);
+      }),
+    );
   }
 
   obtenerMediciones24h(idDispositivo: number): Observable<Medicion[]> {
-    // Mock data - genera 24 puntos de datos (uno por hora)
-    const mediciones: Medicion[] = [];
-    for (let i = 0; i < 24; i++) {
-      const date = new Date();
-      date.setHours(date.getHours() - (24 - i));
-      mediciones.push({
-        ...this.generateMockMedicion(idDispositivo),
-        fecha: date,
-      });
-    }
-    return of(mediciones);
+    const hace24Horas = new Date();
+    hace24Horas.setHours(hace24Horas.getHours() - 24);
+
+    return this.http.get<MedicionApi[]>(this.apiUrl).pipe(
+      map((mediciones) =>
+        mediciones
+          .filter(
+            (medicion) =>
+              Number(medicion.id_dispositivo) === Number(idDispositivo) &&
+              new Date(medicion.fecha) >= hace24Horas,
+          )
+          .map((medicion) => this.convertirMedicion(medicion)),
+      ),
+    );
   }
 
-  // Simula actualizaciones en tiempo real
-  obtenerMedicionesEnTiempoReal(idDispositivo: number): Observable<Medicion> {
-    return interval(2000).pipe(
+  obtenerMedicionesEnTiempoReal(
+    idDispositivo: number,
+  ): Observable<Medicion> {
+    return interval(5000).pipe(
       startWith(0),
       switchMap(() => this.obtenerUltimaMedicion(idDispositivo)),
       catchError((error) => {
         console.error('Error obteniendo mediciones:', error);
-        return of(this.generateMockMedicion(idDispositivo));
+
+        return of({
+          voltaje: 0,
+          corriente: 0,
+          potencia: 0,
+          temperatura: 0,
+          porcentajeBateria: 0,
+          idDispositivo,
+          latitud: 0,
+          longitud: 0,
+          velocidad: 0,
+          fecha: new Date(),
+          estado: 'OFFLINE',
+        });
       }),
     );
   }
@@ -88,18 +134,31 @@ export class MedicionesService {
     return this.selectedDeviceId$.asObservable();
   }
 
-  // Método para obtener todas las mediciones del API
-  getMediciones(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getMediciones(): Observable<Medicion[]> {
+    return this.http.get<MedicionApi[]>(this.apiUrl).pipe(
+      map((mediciones) =>
+        mediciones.map((medicion) => this.convertirMedicion(medicion)),
+      ),
+    );
   }
 
-  // Método para obtener mediciones por dispositivo
-  getMedicionPorDispositivo(idDispositivo: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/${idDispositivo}`);
+  getMedicionPorDispositivo(
+    idDispositivo: number,
+  ): Observable<Medicion[]> {
+    return this.http
+      .get<MedicionApi[]>(`${this.apiUrl}/${idDispositivo}`)
+      .pipe(
+        map((mediciones) =>
+          mediciones.map((medicion) => this.convertirMedicion(medicion)),
+        ),
+      );
   }
 
-  // Método para obtener solo la ruta GPS (optimizado)
-  getMedicionRuta(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/ruta`);
+  getMedicionRuta(): Observable<Medicion[]> {
+    return this.http.get<MedicionApi[]>(`${this.apiUrl}/ruta`).pipe(
+      map((mediciones) =>
+        mediciones.map((medicion) => this.convertirMedicion(medicion)),
+      ),
+    );
   }
 }
